@@ -11,3 +11,15 @@ app.listen(1337, () => {
   console.log(`listening on port 1337`);
 });
 
+app.get('/transaction/:transactionid', (req, res) => {
+  //search db for transaction & send it back to client
+})
+
+
+app.post('/transaction/:transactionid', (req, res) => {
+  //insert transaction into db
+})
+
+app.get('/transaction', (req, res) => {
+  //send back the highest transaction id to the client
+})

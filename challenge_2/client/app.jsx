@@ -2,12 +2,13 @@ import React from 'react';
 import CreateAccount from './CreateAccount.jsx';
 import CardDetails from './CardDetails.jsx';
 import AddressDetails from './AddressDetails.jsx';
+import Summary from './Summary.jsx';
 
-const pages = ['homePage', 'createAccount', 'addressDetails', 'cardDetails'];
+const pages = ['homePage', 'createAccount', 'addressDetails', 'cardDetails', 'summary'];
 
 export default class App extends React.Component{
   constructor(props){
-    super(props)
+    super(props);
     this.state = {
       curPage: 0,
       dbId: 0,
@@ -30,8 +31,10 @@ export default class App extends React.Component{
           zip: ''
         }
       },
-    }
+    };
+
     this.changePages = this.changePages.bind(this);
+    this.getDataFromComponents = this.getDataFromComponents.bind(this);
   }
 
   changePages(amount) {
@@ -54,6 +57,25 @@ export default class App extends React.Component{
     });
   }
 
+  getDataFromComponents(component, data) {
+    let newAccount = {};
+    switch(component) {
+      case 'account':
+        newAccount = Object.assign(this.state.account, data);
+        break;
+      case 'address':
+        newAccount = Object.assign(this.state.account, { address: data });
+        break;
+      case 'card':
+        newAccount = Object.assign(this.state.account, { card: data });
+        break;
+    }
+
+    this.setState({
+      account: newAccount
+    })
+  }
+
   render(){
     let page = undefined;
     const account = this.state.account;
@@ -62,22 +84,40 @@ export default class App extends React.Component{
         page = <button onClick={() => this.changePages(1)}>Checkout</button>;
         break;
       case 'createAccount':
-        page = <CreateAccount account={account}/>;
+        page = <CreateAccount 
+                  account={account} 
+                  changePages={this.changePages}
+                  getDataFromComponents={this.getDataFromComponents}
+                />;
         break;
       case 'addressDetails':
-        page = <AddressDetails address={account.address}/>;
+        page = <AddressDetails 
+                  address={account.address} 
+                  changePages={this.changePages}
+                  getDataFromComponents={this.getDataFromComponents}
+                />;
         break;
       case 'cardDetails':
-        page = <CardDetails card={account.card}/>;
+        page = <CardDetails 
+                card={account.card} 
+                changePages={this.changePages}
+                getDataFromComponents={this.getDataFromComponents}
+              />;
+        break;
+      case 'summary':
+        page = <Summary 
+                  account={account} 
+                  changePages={this.changePages}
+                  getDataFromComponents={this.getDataFromComponents}
+                />;
         break;
       default:
         page = <div>Error</div>
+        break;
     }
     return (
       <div>
-        <button onClick={() => this.changePages(-1)}>Prev</button>
         <div>{page}</div>
-        <button onClick={() => this.changePages(1)}>Next</button>
       </div>
     )
   }
