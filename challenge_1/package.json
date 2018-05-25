@@ -1,0 +1,18 @@
+{
+  "name": "challenge_1",
+  "version": "1.0.0",
+  "description": "CryptoTracker",
+  "main": "server.js",
+  "scripts": {
+    "test": "test",
+    "start": "node server.js"
+  },
+  "author": "Steven Purn",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3",
+    "react": "^16.3.2",
+    "react-dom": "^16.3.2",
+    "webpack": "^4.8.3"
+  }
+}
