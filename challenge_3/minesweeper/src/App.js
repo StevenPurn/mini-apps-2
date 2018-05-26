@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Board from './Board';
 
+const surroundingTiles = [[-1, -1], [-1, 0], [-1, 1], [0, -1], [0, 1], [1, -1], [1, 0], [1, 1]];
+
 class App extends Component {
   getRand(max) {
     return Math.floor(Math.random() * max)
@@ -37,6 +39,18 @@ class App extends Component {
     this.state = {
       board: board,
     };
+  }
+
+  getTileValue(row, col) {
+    let value = null;
+    const board = this.state.board;
+    surroundingTiles.forEach(tile => {
+      if (board[row + tile[0]][col + tile[1]].isMine) {
+        value = value + 1 || 1;
+      }
+    });
+
+    return value;
   }
 
   handleClick(row, col, isRightClick = false) {
