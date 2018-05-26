@@ -14,14 +14,16 @@ class App extends Component {
     super(props);
     this.getRand = this.getRand.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.getTileValue = this.getTileValue.bind(this);
     const board = [];
     for (let i = 0; i < 10; i += 1) {
       const row = [];
       for (let j = 0; j < 10; j += 1) {
         row.push({
-          revealed: false,
+          isRevealed: false,
           isFlagged: false,
           isMine: false,
+          value: 0,
         });
       }
       board.push(row);
@@ -41,6 +43,19 @@ class App extends Component {
     };
   }
 
+  getEmptySurroundingTiles(row, col) {
+    let results = [];
+    const board = this.state.board;
+    surroundingTiles.forEach(tile => {
+      const newRow = row + tile[0];
+      const newCol = col + tile[1];
+      if (!board[newRow][newCol].getTileValue && !tile.isMine) {
+        results.push([newRow, newCol]);
+      }
+    });
+    return results;
+  }
+
   getTileValue(row, col) {
     let value = null;
     const board = this.state.board;
@@ -54,8 +69,8 @@ class App extends Component {
   }
 
   handleClick(row, col, isRightClick = false) {
+    const newBoard = this.state.board.slice();
     if (isRightClick) {
-      const newBoard = this.state.board.slice();
       newBoard[row][col].isFlagged = true;
       this.setState({
         board: newBoard,
@@ -63,9 +78,12 @@ class App extends Component {
     }
     if (this.state.board[row][col].isFlagged === false) {
       if (this.state.board[row][col].isMine) {
+        newBoard[row][col].isRevealed = true;
         console.log('player lost');
       } else {
-        console.log('reveal tokens & do things');
+        newBoard[row][col].value = this.getTileValue(row, col);
+        newBoard[row][col].isRevealed = true;
+        const tilesToReveal = this.getEmptySurroundingTiles(row, col);
       }
     }
   }
