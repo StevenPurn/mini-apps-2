@@ -4,9 +4,34 @@ import './App.css';
 import Board from './Board';
 
 class App extends Component {
-  constructor(props){
-    super(props);
+  getRand(max) {
+    return Math.floor(Math.random() * max)
+  }
 
+  constructor(props) {
+    super(props);
+    this.getRand = this.getRand.bind(this);
+    const board = [];
+    for (let i = 0; i < 10; i += 1) {
+      const row = [];
+      for (let j = 0; j < 10; j += 1) {
+        row.push([false, false]);
+      }
+      board.push(row);
+    }
+    for (let i = 0; i < 10; i += 1) {
+      let row = this.getRand(9);
+      let col = this.getRand(9);
+      while (board[row][col][1] === true) {
+        row = this.getRand(9);
+        col = this.getRand(9);
+      }
+      board[row][col][1] = true;
+    }
+    console.log(board)
+    this.state = {
+      board: board,
+    };
   }
 
   handleClick(tileLocation) {
