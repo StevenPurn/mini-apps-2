@@ -4,16 +4,16 @@ const Tile = (props) => {
   const style = {
     height: '20px',
     border: 'solid',
-    borderWidth: '1px'
-  }
+    borderWidth: '1px',
+  };
 
   const handleClick = () => {
-    props.handleClick(props.tileLocation);
-  }
+    props.handleClick(props.location);
+  };
 
-  return(
-    <div style={style} className='tile' onClick={this.handleClick}/>
-  )
-}
+  return (
+    <div style={style} className='tile' onClick={() => handleClick()} />
+  );
+};
 
 export default Tile;

@@ -6,14 +6,14 @@ const Board = (props) => {
   for (let i = 0; i < props.size; i += 1) {
     board.push(i);
   }
-  const rows = board.map(row => {
-    return <Row size={props.size} rowNumber={row} handleClick={props.handleClick} /> 
-  });
-  return(
+  const rows = board.map(row =>
+    <Row size={props.size} rowNumber={row} handleClick={props.handleClick} />);
+
+  return (
     <div>
       {rows}
     </div>
-  )
-}
+  );
+};
 
 export default Board;

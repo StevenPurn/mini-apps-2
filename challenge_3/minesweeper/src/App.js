@@ -6,11 +6,13 @@ import Board from './Board';
 class App extends Component {
   constructor(props){
     super(props);
-    
+
   }
-  handleClick() {
-    console.log('clicked');
+
+  handleClick(tileLocation) {
+    console.log(tileLocation);
   }
+  
   render() {
     return (
       <div className="App">
