@@ -7,12 +7,17 @@ const Tile = (props) => {
     borderWidth: '1px',
   };
 
-  const handleClick = () => {
-    props.handleClick(props.location);
+  const handleClick = (event) => {
+    event.preventDefault();
+    if (event.type === 'click') {
+      props.handleClick(props.location[0], props.location[1]);
+    } else {
+      props.handleClick(props.location[0], props.location[1], true);
+    }
   };
 
   return (
-    <div style={style} className='tile' onClick={() => handleClick()} />
+    <div style={style} className='tile' onClick={e => handleClick(e)} onContextMenu={e => handleClick(e)}/>
   );
 };
 

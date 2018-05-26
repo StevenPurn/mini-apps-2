@@ -11,31 +11,49 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.getRand = this.getRand.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     const board = [];
     for (let i = 0; i < 10; i += 1) {
       const row = [];
       for (let j = 0; j < 10; j += 1) {
-        row.push([false, false]);
+        row.push({
+          revealed: false,
+          isFlagged: false,
+          isMine: false,
+        });
       }
       board.push(row);
     }
     for (let i = 0; i < 10; i += 1) {
       let row = this.getRand(9);
       let col = this.getRand(9);
-      while (board[row][col][1] === true) {
+      while (board[row][col].isMine === true) {
         row = this.getRand(9);
         col = this.getRand(9);
       }
-      board[row][col][1] = true;
+      board[row][col].isMine = true;
     }
-    console.log(board)
+
     this.state = {
       board: board,
     };
   }
 
-  handleClick(tileLocation) {
-    console.log(tileLocation);
+  handleClick(row, col, isRightClick = false) {
+    if (isRightClick) {
+      const newBoard = this.state.board.slice();
+      newBoard[row][col].isFlagged = true;
+      this.setState({
+        board: newBoard,
+      });
+    }
+    if (this.state.board[row][col].isFlagged === false) {
+      if (this.state.board[row][col].isMine) {
+        console.log('player lost');
+      } else {
+        console.log('reveal tokens & do things');
+      }
+    }
   }
   
   render() {
